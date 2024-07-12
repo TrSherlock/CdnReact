@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="container"></div>
+    <script type="text/babel">
+      const { useState } = React;
+      function App() {
+            const [count, setCount] = useState(0);
+
+            return (
+                <div>
+                    <h1>Hello, React!</h1>
+                    <p>Count: {count}</p>
+                    <button className="button" onClick={() => setCount(count + 1)}>Increase Count</button>
+                </div>
+            );
+        }
+        ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
