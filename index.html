@@ -26,19 +26,41 @@
 <body>
     <div id="root" class="container"></div>
     <script type="text/babel">
-      const { useState } = React;
+      const { useState, useEffect } = React;
       function App() {
-            const [count, setCount] = useState(0);
-
+            const [users, setUsers] = useState([]);
+            const [userId, setUserId] = useState(1);
+            const [comments, setComments] = useState([]);
+            const handleUsers = async ()=>{
+                const result = await fetch("https://jsonplaceholder.typicode.com/users").then(d=>d.json())
+                setUsers(result);
+            };
+            const handleComments = async ()=>{
+                const result = await fetch(`https://jsonplaceholder.typicode.com/posts/${userId}/comments`).then(d=>d.json())
+                
+                if(userId != users.length){
+                    setComments([...comments, ...result]);
+                    setUserId(prev=>prev+1);
+                }
+            }
+            useEffect(()=>{
+                handleUsers();
+            }, [])
             return (
                 <div>
-                    <h1>Hello, React!</h1>
-                    <p>Count: {count}</p>
-                    <button className="button" onClick={() => setCount(count + 1)}>Increase Count</button>
+                    <ul>
+                        {
+                            comments.map((line,k)=>(
+                                <li key={k}>{line.body}</li>
+                            ))
+                        }
+                    </ul>
+                    <button onClick={handleComments}>Yükle</button>
                 </div>
             );
         }
-        ReactDOM.render(<App />, document.getElementById('root'));
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />)
   </script>
 </body>
 </html>
